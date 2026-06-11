@@ -1,0 +1,4 @@
+1|Laptop Lenovo|3499.99|5|Elektronika
+2|Mysz Logitech|129.99|20|Akcesoria
+3|Klawiatura mechaniczna|299.99|12|Akcesoria
+10|Sluchawki|199.99|8|Elektronika
