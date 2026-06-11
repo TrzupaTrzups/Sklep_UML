@@ -9,14 +9,7 @@
 #include <string>
 #include <vector>
 
-using std::cin;
-using std::cout;
-using std::endl;
-using std::getline;
-using std::numeric_limits;
-using std::streamsize;
-using std::string;
-using std::vector;
+using namespace std;
 
 class MenuGoscia {
 private:
