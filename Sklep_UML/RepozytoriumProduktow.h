@@ -72,14 +72,14 @@ public:
         return produkty;
     }
 
-    bool zapiszProdukty(const vector<Produkt>& produkty, char separator = '|'){
+    bool zapiszProdukty(vector<Produkt>& produkty, char separator = '|'){
         ofstream plik(sciezkaDoPliku, ios::trunc);
 
         if (!plik.is_open()) {
             return false;
         }
 
-        for(const Produkt& produkt : produkty){
+        for(Produkt& produkt : produkty){
             plik
                 <<produkt.pobierzId() << separator
                 <<produkt.pobierzNazwe() << separator
@@ -95,7 +95,7 @@ public:
 
 //Funkcja pomocnicza do zamiany tekstu z separatorem na wektor stringów nie ma jej w diagrami klas.
 private:
-    vector<string> podzielTekst(const string& tekst, char separator){
+    vector<string> podzielTekst(string& tekst, char separator){
         vector<string> wynik;
         stringstream strumien(tekst);
         string element;

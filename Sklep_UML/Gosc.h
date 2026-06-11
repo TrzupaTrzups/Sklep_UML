@@ -32,7 +32,7 @@ public:
     }
 
     void przegladajProdukty() const {
-        const vector<Produkt>& produkty = serwisProduktow.pobierzWszystkieProdukty();
+        const vector<Produkt>& produkty = serwisProduktow.pobierzProdukty();
         wyswietlTabeleProduktow(produkty);
     }
 
@@ -46,7 +46,7 @@ public:
         const string& cenaMinimalnaTekst,
         const string& cenaMaksymalnaTekst
     ) const {
-        vector<Produkt> wszystkieProdukty = serwisProduktow.pobierzWszystkieProdukty();
+        vector<Produkt> wszystkieProdukty = serwisProduktow.pobierzProdukty();
         vector<Produkt> wynik;
 
         bool czyFiltrowacKategorie = !kategoria.empty();
@@ -77,7 +77,7 @@ public:
             return wynik;
         }
 
-        for (const Produkt& produkt : wszystkieProdukty) {
+        for (Produkt& produkt : wszystkieProdukty) {
             bool pasuje = true;
 
             if (czyFiltrowacKategorie && produkt.pobierzKategorie() != kategoria) {
@@ -108,7 +108,7 @@ public:
             return;
         }
 
-        produkt->wyswietl();
+        const_cast<Produkt*>(produkt)->wyswietl();
     }
 
     void wyswietlProdukty(const vector<Produkt>& produkty) const {
@@ -116,7 +116,7 @@ public:
     }
 
 protected:
-    void wyswietlTabeleProduktow(const vector<Produkt>& produkty) const {
+    void wyswietlTabeleProduktow(vector<Produkt> produkty) const {
         if (produkty.empty()) {
             cout << "Brak produktow do wyswietlenia." << endl;
             return;
@@ -132,7 +132,7 @@ protected:
 
         cout << string(80, '-') << endl;
 
-        for (const Produkt& produkt : produkty) {
+        for (Produkt& produkt : produkty) {
             ostringstream cena;
             cena << fixed << setprecision(2) << produkt.pobierzCene() << " zl";
 

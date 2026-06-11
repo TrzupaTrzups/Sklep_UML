@@ -8,12 +8,7 @@
 #include <string>
 #include <vector>
 
-using std::find;
-using std::remove_if;
-using std::sort;
-using std::string;
-using std::tolower;
-using std::vector;
+using namespace std;
 
 class SerwisProduktow {
 private:
@@ -26,12 +21,16 @@ public:
         produkty = repozytorium.wczytajProdukty();
     }
 
-    const vector<Produkt>& pobierzWszystkieProdukty() const {
+// geter do vectora produktów.
+    const vector<Produkt>& pobierzProdukty() const {
         return produkty;
     }
 
-    const Produkt* znajdzProduktPoId(int id) const {
-        for (const Produkt& produkt : produkty) {
+    // Szuka produktu po podanym ID.
+    // Jeśli produkt istnieje, zwraca wskaźnik do tego produktu.
+    // Jeśli produkt nie istnieje, zwraca nullptr.
+    const Produkt* znajdzProduktPoId(int id) {
+        for (Produkt& produkt : produkty) {
             if (produkt.pobierzId() == id) {
                 return &produkt;
             }
@@ -40,17 +39,17 @@ public:
         return nullptr;
     }
 
-    bool dodajProdukt(const Produkt& produkt) {
+    bool dodajProdukt(Produkt produkt) {
         if (!produkt.czyPoprawny()) {
             return false;
         }
 
-        if (czyProduktIstnieje(produkt.pobierzId())) {
+        if (znajdzProduktPoId(produkt.pobierzId()) != nullptr) {
             return false;
         }
 
         produkty.push_back(produkt);
-        return zapiszZmiany();
+        return repozytorium.zapiszProdukty(produkty);
     }
 
     bool usunProdukt(int id) {
@@ -60,7 +59,7 @@ public:
             remove_if(
                 produkty.begin(),
                 produkty.end(),
-                [id](const Produkt& produkt) {
+                [id](Produkt& produkt) {
                     return produkt.pobierzId() == id;
                 }
             ),
@@ -71,7 +70,7 @@ public:
             return false;
         }
 
-        return zapiszZmiany();
+        return repozytorium.zapiszProdukty(produkty);
     }
 
     vector<Produkt> wyszukajProduktyPoNazwie(const string& fraza) const {
@@ -83,7 +82,7 @@ public:
 
         string frazaMaleLitery = zamienNaMaleLitery(fraza);
 
-        for (const Produkt& produkt : produkty) {
+        for (Produkt produkt : produkty) {
             string nazwaMaleLitery = zamienNaMaleLitery(produkt.pobierzNazwe());
 
             if (nazwaMaleLitery.find(frazaMaleLitery) != string::npos) {
@@ -103,7 +102,7 @@ public:
 
         string szukanaKategoria = zamienNaMaleLitery(kategoria);
 
-        for (const Produkt& produkt : produkty) {
+        for (Produkt produkt : produkty) {
             string kategoriaProduktu = zamienNaMaleLitery(produkt.pobierzKategorie());
 
             if (kategoriaProduktu == szukanaKategoria) {
@@ -125,11 +124,11 @@ public:
             return wynik;
         }
 
-        for (const Produkt& produkt : produkty) {
+        for (Produkt produkt : produkty) {
             if (
                 produkt.pobierzCene() >= cenaMinimalna &&
                 produkt.pobierzCene() <= cenaMaksymalna
-                ) {
+            ) {
                 wynik.push_back(produkt);
             }
         }
@@ -140,7 +139,7 @@ public:
     vector<string> pobierzKategorie() const {
         vector<string> kategorie;
 
-        for (const Produkt& produkt : produkty) {
+        for (Produkt produkt : produkty) {
             string kategoria = produkt.pobierzKategorie();
 
             if (find(kategorie.begin(), kategorie.end(), kategoria) == kategorie.end()) {
@@ -154,21 +153,15 @@ public:
     }
 
 private:
-    bool czyProduktIstnieje(int id) const {
-        return znajdzProduktPoId(id) != nullptr;
-    }
 
-    bool zapiszZmiany(){
-        return repozytorium.zapiszProdukty(produkty);
-    }
-
+//Funkcja pomocnicza do zamiany tekstu na małe litery, nie ma jej w diagramie klas. Pomocna do wyszukiwania produktów bez rozróżniania wielkości liter.
     string zamienNaMaleLitery(const string& tekst) const {
         string wynik = tekst;
 
         for (char& znak : wynik) {
             znak = static_cast<char>(
                 tolower(static_cast<unsigned char>(znak))
-                );
+            );
         }
 
         return wynik;

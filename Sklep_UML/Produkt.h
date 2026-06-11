@@ -16,10 +16,10 @@ private:
 public:
     Produkt(
         int id,
-        const string& nazwa,
+        string& nazwa,
         double cena,
         int stanMagazynowy,
-        const string& kategoria
+        string& kategoria
     )
         : id(id),
         nazwa(nazwa),
@@ -28,27 +28,27 @@ public:
         kategoria(kategoria) {
     }
 
-    int pobierzId() const {
+    int pobierzId() {
         return id;
     }
 
-    const string& pobierzNazwe() const {
+    string& pobierzNazwe() {
         return nazwa;
     }
 
-    double pobierzCene() const {
+    double pobierzCene() {
         return cena;
     }
 
-    int pobierzStanMagazynowy() const {
+    int pobierzStanMagazynowy() {
         return stanMagazynowy;
     }
 
-    const string& pobierzKategorie() const {
+    string& pobierzKategorie() {
         return kategoria;
     }
 
-    void ustawNazwe(const string& nowaNazwa) {
+    void ustawNazwe(string& nowaNazwa) {
         nazwa = nowaNazwa;
     }
 
@@ -60,11 +60,11 @@ public:
         stanMagazynowy = nowyStanMagazynowy;
     }
 
-    void ustawKategorie(const string& nowaKategoria) {
+    void ustawKategorie(string& nowaKategoria) {
         kategoria = nowaKategoria;
     }
 
-    bool czyPoprawny() const {
+    bool czyPoprawny() {
         return id > 0
             && !nazwa.empty()
             && cena >= 0
@@ -72,7 +72,7 @@ public:
             && !kategoria.empty();
     }
 
-    void wyswietl() const {
+    void wyswietl() {
         cout
             << "ID: " << id
             << ", Nazwa: " << nazwa

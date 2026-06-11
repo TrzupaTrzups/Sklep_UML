@@ -23,7 +23,7 @@ public:
     MenuGoscia(Gosc& gosc, SerwisProduktow& serwisProduktow)
         : gosc(gosc),
           serwisProduktow(serwisProduktow),
-          aktualneProdukty(serwisProduktow.pobierzWszystkieProdukty()),
+          aktualneProdukty(serwisProduktow.pobierzProdukty()),
           aktualnyTytul("WSZYSTKIE PRODUKTY") {
     }
 
@@ -93,7 +93,7 @@ private:
     }
 
     void pokazWszystkieProdukty() {
-        aktualneProdukty = serwisProduktow.pobierzWszystkieProdukty();
+        aktualneProdukty = serwisProduktow.pobierzProdukty();
         aktualnyTytul = "WSZYSTKIE PRODUKTY";
 
         wyswietlWidok();
