@@ -8,32 +8,22 @@
 #include <string>
 #include <vector>
 
-using std::fixed;
-using std::getline;
-using std::ifstream;
-using std::ofstream;
-using std::ios;
-using std::setprecision;
-using std::stoi;
-using std::stod;
-using std::string;
-using std::stringstream;
-using std::vector;
+using namespace std;
 
 class RepozytoriumProduktow {
 private:
     string sciezkaDoPliku;
 
 public:
-    explicit RepozytoriumProduktow(const string& sciezkaDoPliku)
+    RepozytoriumProduktow(string& sciezkaDoPliku)
         : sciezkaDoPliku(sciezkaDoPliku) {
     }
 
-    const string& pobierzSciezkeDoPliku() const {
+    string& pobierzSciezkeDoPliku() {
         return sciezkaDoPliku;
     }
 
-    vector<Produkt> wczytajProdukty() const {
+    vector<Produkt> wczytajProdukty() {
         vector<Produkt> produkty;
 
         ifstream plik(sciezkaDoPliku);
@@ -82,28 +72,30 @@ public:
         return produkty;
     }
 
-    bool zapiszProdukty(const vector<Produkt>& produkty) const {
+    bool zapiszProdukty(const vector<Produkt>& produkty, char separator = '|'){
         ofstream plik(sciezkaDoPliku, ios::trunc);
 
         if (!plik.is_open()) {
             return false;
         }
 
-        for (const Produkt& produkt : produkty) {
+        for(const Produkt& produkt : produkty){
             plik
-                << produkt.pobierzId() << "|"
-                << produkt.pobierzNazwe() << "|"
-                << fixed << setprecision(2) << produkt.pobierzCene() << "|"
-                << produkt.pobierzStanMagazynowy() << "|"
-                << produkt.pobierzKategorie()
+                <<produkt.pobierzId() << separator
+                <<produkt.pobierzNazwe() << separator
+                <<fixed << setprecision(2) << produkt.pobierzCene() << separator
+                <<produkt.pobierzStanMagazynowy() << separator
+                <<produkt.pobierzKategorie()
                 << "\n";
         }
 
         return true;
     }
 
+
+//Funkcja pomocnicza do zamiany tekstu z separatorem na wektor stringów nie ma jej w diagrami klas.
 private:
-    vector<string> podzielTekst(const string& tekst, char separator) const {
+    vector<string> podzielTekst(const string& tekst, char separator){
         vector<string> wynik;
         stringstream strumien(tekst);
         string element;
