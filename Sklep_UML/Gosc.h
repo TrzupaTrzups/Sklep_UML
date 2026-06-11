@@ -21,7 +21,7 @@ protected:
     SerwisProduktow& serwisProduktow;
 
 public:
-    explicit Gosc(SerwisProduktow& serwisProduktow)
+    Gosc(SerwisProduktow& serwisProduktow)
         : serwisProduktow(serwisProduktow) {
     }
 
@@ -41,19 +41,64 @@ public:
         wyswietlTabeleProduktow(produkty);
     }
 
-    void filtrujProduktyPoKategorii(const string& kategoria) const {
-        vector<Produkt> produkty = serwisProduktow.filtrujProduktyPoKategorii(kategoria);
-        wyswietlTabeleProduktow(produkty);
-    }
+    vector<Produkt> filtrujProdukty(
+        const string& kategoria,
+        const string& cenaMinimalnaTekst,
+        const string& cenaMaksymalnaTekst
+    ) const {
+        vector<Produkt> wszystkieProdukty = serwisProduktow.pobierzWszystkieProdukty();
+        vector<Produkt> wynik;
 
-    void filtrujProduktyPoCenie(double cenaMinimalna, double cenaMaksymalna) const {
-        vector<Produkt> produkty = serwisProduktow.filtrujProduktyPoCenie(
-            cenaMinimalna,
-            cenaMaksymalna
-        );
+        bool czyFiltrowacKategorie = !kategoria.empty();
+        bool czyFiltrowacCeneMinimalna = !cenaMinimalnaTekst.empty();
+        bool czyFiltrowacCeneMaksymalna = !cenaMaksymalnaTekst.empty();
 
-        wyswietlTabeleProduktow(produkty);
-    }
+        double cenaMinimalna = 0;
+        double cenaMaksymalna = 0;
+
+        try {
+            if (czyFiltrowacCeneMinimalna) {
+                cenaMinimalna = stod(cenaMinimalnaTekst);
+            }
+
+            if (czyFiltrowacCeneMaksymalna) {
+                cenaMaksymalna = stod(cenaMaksymalnaTekst);
+            }
+        }
+        catch (...) {
+            return wynik;
+        }
+
+        if (
+            czyFiltrowacCeneMinimalna &&
+            czyFiltrowacCeneMaksymalna &&
+            cenaMinimalna > cenaMaksymalna
+        ) {
+            return wynik;
+        }
+
+        for (const Produkt& produkt : wszystkieProdukty) {
+            bool pasuje = true;
+
+            if (czyFiltrowacKategorie && produkt.pobierzKategorie() != kategoria) {
+                pasuje = false;
+            }
+
+            if (czyFiltrowacCeneMinimalna && produkt.pobierzCene() < cenaMinimalna) {
+                pasuje = false;
+            }
+
+            if (czyFiltrowacCeneMaksymalna && produkt.pobierzCene() > cenaMaksymalna) {
+                pasuje = false;
+            }
+
+            if (pasuje) {
+                wynik.push_back(produkt);
+            }
+        }
+
+        return wynik;
+    }   
 
     void pokazSzczegolyProduktu(int idProduktu) const {
         const Produkt* produkt = serwisProduktow.znajdzProduktPoId(idProduktu);
