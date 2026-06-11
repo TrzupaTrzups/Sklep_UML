@@ -163,7 +163,8 @@ void uruchomMenuGoscia(Gosc& gosc, SerwisProduktow& serwisProduktow) {
 }
 
 int main() {
-    SerwisProduktow serwisProduktow("produkty.txt");
+    string sciezkaDoPliku = "produkty.txt";
+    SerwisProduktow serwisProduktow(sciezkaDoPliku);
 
     Gosc gosc(serwisProduktow);
 

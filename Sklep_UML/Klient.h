@@ -5,22 +5,36 @@
 #include "Koszyk.h"
 
 #include <iostream>
+#include <string>
+
+using namespace std;
 
 class Klient : public Gosc {
-    public:
+public:
     int id;
     string login;
     string haslo;
     Koszyk koszyk;
 
-    Klient() : id(0) {}
+    Klient(
+        int id,
+        const string& login,
+        const string& haslo,
+        SerwisProduktow& serwisProduktow
+    )
+        : Gosc(serwisProduktow),
+          id(id),
+          login(login),
+          haslo(haslo) {
+    }
+
     ~Klient() {}
 
-    Klient(int id, const string& login, const string& haslo)
-        : id(id), login(login), haslo(haslo) {}
+    void dodajProduktDoKoszyka(int idProduktu, int ilosc) {
+    }
 
-    void dodajProduktDoKoszyka(int idProduktu, int ilosc);
-    void usunProduktZKoszyka(int idProduktu);
+    void usunProduktZKoszyka(int idProduktu) {
+    }
 };
 
 #endif // KLIENT_H

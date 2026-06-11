@@ -21,7 +21,7 @@ private:
     RepozytoriumProduktow repozytorium;
 
 public:
-    explicit SerwisProduktow(const string& sciezkaDoPliku)
+    SerwisProduktow(string& sciezkaDoPliku)
         : repozytorium(sciezkaDoPliku) {
         produkty = repozytorium.wczytajProdukty();
     }
@@ -158,7 +158,7 @@ private:
         return znajdzProduktPoId(id) != nullptr;
     }
 
-    bool zapiszZmiany() const {
+    bool zapiszZmiany(){
         return repozytorium.zapiszProdukty(produkty);
     }
 
