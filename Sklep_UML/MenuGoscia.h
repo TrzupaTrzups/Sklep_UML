@@ -12,20 +12,30 @@
 using namespace std;
 
 class MenuGoscia {
-private:
-    Gosc& gosc;
-    SerwisProduktow& serwisProduktow;
+    protected:
+    Gosc* gosc;
+    SerwisProduktow* serwisProduktow;
 
     vector<Produkt> aktualneProdukty;
     string aktualnyTytul;
 
-public:
+    public:
+
+    MenuGoscia()
+        : gosc(nullptr),
+          serwisProduktow(nullptr),
+          aktualneProdukty(),
+          aktualnyTytul("WSZYSTKIE PRODUKTY") {
+    }
+
     MenuGoscia(Gosc& gosc, SerwisProduktow& serwisProduktow)
-        : gosc(gosc),
-          serwisProduktow(serwisProduktow),
+        : gosc(&gosc),
+          serwisProduktow(&serwisProduktow),
           aktualneProdukty(serwisProduktow.pobierzProdukty()),
           aktualnyTytul("WSZYSTKIE PRODUKTY") {
     }
+
+    virtual ~MenuGoscia() = default;
 
     void uruchom() {
         bool czyDziala = true;
@@ -69,9 +79,9 @@ public:
         }
     }
 
-private:
+    protected:
     void wyswietlMenu() const {
-        cout << "=== MENU GOSCIA ===" << endl;
+        cout << "=== MENU GLOWNE ===" << endl;
         cout << "1. Wyswietl wszystkie produkty" << endl;
         cout << "2. Wyszukaj produkt po nazwie" << endl;
         cout << "3. Filtruj produkty po kategorii" << endl;
@@ -87,13 +97,13 @@ private:
         wyswietlMenu();
 
         cout << "=== " << aktualnyTytul << " ===" << endl;
-        gosc.wyswietlProdukty(aktualneProdukty);
+        gosc->wyswietlProdukty(aktualneProdukty);
 
         cout << endl;
     }
 
     void pokazWszystkieProdukty() {
-        aktualneProdukty = serwisProduktow.pobierzProdukty();
+        aktualneProdukty = serwisProduktow->pobierzProdukty();
         aktualnyTytul = "WSZYSTKIE PRODUKTY";
 
         wyswietlWidok();
@@ -102,7 +112,7 @@ private:
     void wyszukajProdukt() {
         string fraza = wczytajTekst("Podaj nazwe lub fragment nazwy produktu: ");
 
-        aktualneProdukty = serwisProduktow.wyszukajProduktyPoNazwie(fraza);
+        aktualneProdukty = serwisProduktow->wyszukajProduktyPoNazwie(fraza);
         aktualnyTytul = "WYNIKI WYSZUKIWANIA: " + fraza;
 
         wyswietlWidok();
@@ -111,7 +121,7 @@ private:
     void filtrujPoKategorii() {
         string kategoria = wczytajTekst("Podaj kategorie: ");
 
-        aktualneProdukty = serwisProduktow.filtrujProduktyPoKategorii(kategoria);
+        aktualneProdukty = serwisProduktow->filtrujProduktyPoKategorii(kategoria);
         aktualnyTytul = "PRODUKTY Z KATEGORII: " + kategoria;
 
         wyswietlWidok();
@@ -121,7 +131,7 @@ private:
         double cenaMinimalna = wczytajLiczbeZmiennoprzecinkowa("Podaj cene minimalna: ");
         double cenaMaksymalna = wczytajLiczbeZmiennoprzecinkowa("Podaj cene maksymalna: ");
 
-        aktualneProdukty = serwisProduktow.filtrujProduktyPoCenie(
+        aktualneProdukty = serwisProduktow->filtrujProduktyPoCenie(
             cenaMinimalna,
             cenaMaksymalna
         );
@@ -138,15 +148,16 @@ private:
         wyswietlMenu();
 
         cout << "=== SZCZEGOLY PRODUKTU ===" << endl;
-        gosc.pokazSzczegolyProduktu(idProduktu);
+        gosc->pokazSzczegolyProduktu(idProduktu);
 
         cout << endl;
     }
 
     void wyczyscEkran() const {
-        system("cls");
+        cout << "\033[H\033[2J" << flush;
     }
 
+    public:
     int wczytajLiczbeCalkowita(const string& komunikat) const {
         int liczba;
 

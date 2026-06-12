@@ -30,6 +30,14 @@ public:
 
     ~Klient() {}
 
+    bool zaloguj(Klient& k, const string& login, const string& haslo) {
+        if (k.login == login && k.haslo == haslo) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     void dodajProduktDoKoszyka(int idProduktu, int ilosc) {
     }
 
