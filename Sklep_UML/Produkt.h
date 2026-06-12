@@ -81,4 +81,6 @@ public:
             << ", Kategoria: " << kategoria
             << endl;
     }
+
+    
 };

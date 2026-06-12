@@ -18,6 +18,7 @@ class MenuGoscia {
 
     vector<Produkt> aktualneProdukty;
     string aktualnyTytul;
+    
 
     public:
 
@@ -44,43 +45,47 @@ class MenuGoscia {
 
         while (czyDziala) {
             int wybor = wczytajLiczbeCalkowita("Wybierz opcje: ");
-
-            switch (wybor) {
-            case 1:
-                pokazWszystkieProdukty();
-                break;
-
-            case 2:
-                wyszukajProdukt();
-                break;
-
-            case 3:
-                filtrujPoKategorii();
-                break;
-
-            case 4:
-                filtrujPoCenie();
-                break;
-
-            case 5:
-                pokazSzczegolyProduktu();
-                break;
-
-            case 0:
-                czyDziala = false;
-                break;
-
-            default:
-                wyswietlWidok();
-                cout << "Nie ma takiej opcji. Sprobuj ponownie." << endl;
-                cout << endl;
-                break;
-            }
+            czyDziala = obsluzWybor(wybor);
         }
     }
+    virtual bool obsluzWybor(int wybor) {
+        switch (wybor) {
+        case 1:
+            pokazWszystkieProdukty();
+            break;
+
+        case 2:
+            wyszukajProdukt();
+            break;
+
+        case 3:
+            filtrujPoKategorii();
+            break;
+
+        case 4:
+            filtrujPoCenie();
+            break;
+
+        case 5:
+            pokazSzczegolyProduktu();
+            break;
+
+        case 0:
+            return false;
+
+        default:
+            wyswietlWidok();
+            cout << "Nie ma takiej opcji. Sprobuj ponownie." << endl;
+            cout << endl;
+            break;
+        }
+
+        return true;
+    }
+
 
     protected:
-    void wyswietlMenu() const {
+    virtual void wyswietlMenu() const {
         cout << "=== MENU GLOWNE ===" << endl;
         cout << "1. Wyswietl wszystkie produkty" << endl;
         cout << "2. Wyszukaj produkt po nazwie" << endl;

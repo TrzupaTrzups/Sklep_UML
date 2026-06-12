@@ -47,4 +47,19 @@ public:
     //     cout << "0. Wyjdz" << endl;
     //     cout << endl;
     // }
+
+    bool dodajProdukt(const Produkt& produkt) {
+    return serwisProduktow.dodajProdukt(produkt);
+    }
+
+    bool usunProdukt(int idProduktu) {
+        return serwisProduktow.usunProdukt(idProduktu);
+    }
+        bool zaloguj(Administrator& admin, const string& login, const string& haslo) {
+        if (admin.login == login && admin.haslo == haslo) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 };
