@@ -28,23 +28,23 @@ public:
         kategoria(kategoria) {
     }
 
-    int pobierzId() {
+    int pobierzId() const {
         return id;
     }
 
-    string& pobierzNazwe() {
+    const string& pobierzNazwe() const {
         return nazwa;
     }
 
-    double pobierzCene() {
+    double pobierzCene() const {
         return cena;
     }
 
-    int pobierzStanMagazynowy() {
+    int pobierzStanMagazynowy() const {
         return stanMagazynowy;
     }
 
-    string& pobierzKategorie() {
+    const string& pobierzKategorie() const {
         return kategoria;
     }
 

@@ -20,7 +20,7 @@ public:
         int id,
         const string& login,
         const string& haslo,
-        SerwisProduktow& serwisProduktow
+        SerwisProduktow serwisProduktow
     )
         : Gosc(serwisProduktow),
           id(id),
@@ -39,9 +39,47 @@ public:
     }
 
     void dodajProduktDoKoszyka(int idProduktu, int ilosc) {
+        koszyk.dodajProdukt(idProduktu, ilosc);
     }
 
     void usunProduktZKoszyka(int idProduktu) {
+        koszyk.usunProdukt(idProduktu);
+    }
+
+    void zmienIloscProduktu(int idProduktu, int ilosc) {
+        koszyk.zmienIlosc(idProduktu, ilosc);
+    }
+    
+    void zlozZamowienie() {
+        if (koszyk.czyPusty()) {
+            cout << "Koszyk jest pusty. Nie mozna zlozyc zamowienia." << endl;
+            return;
+        }
+
+        double wartoscZamowienia = koszyk.obliczWartosc();
+        cout << "Zlozono zamowienie o wartosci: " << wartoscZamowienia << " PLN" << endl;
+        koszyk.wyczysc();
+    }
+
+    void pokazHistoriaZamowien() const {
+    }
+
+    void pokazStatusZamowienia(int idZamowienia) const {
+    }
+
+    void ZarzadzajAdresemDostawy() {
+    }
+
+    void zarzadzajKartaPlatnicza() {
+    }
+
+    void zmienHaslo(const string& noweHaslo) {
+        haslo = noweHaslo;
+        cout << "Haslo zostalo zmienione." << endl;
+    }
+
+    void pokazKoszyk() {
+        koszyk.wyswietlKoszyk();
     }
 };
 

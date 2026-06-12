@@ -9,12 +9,12 @@ private:
     int ilosc;
 
 public:
-    PozycjaKoszyka(Produkt& produkt, int ilosc)
+    PozycjaKoszyka(const Produkt& produkt, int ilosc)
         : produkt(produkt),
           ilosc(ilosc) {
     }
 
-    Produkt& pobierzProdukt(){
+    const Produkt& pobierzProdukt() const {
         return produkt;
     }
 

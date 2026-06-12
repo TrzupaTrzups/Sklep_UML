@@ -1,4 +1,20 @@
-1|Laptop Lenovo|3499.99|5|Elektronika
-2|Mysz Logitech|129.99|20|Akcesoria
-3|Klawiatura mechaniczna|299.99|12|Akcesoria
-10|Sluchawki|199.99|8|Elektronika
+1|Laptop Lenovo ThinkPad T14|3499.99|5|Elektronika
+2|Mysz Logitech MX Master 3|429.99|20|Akcesoria
+3|Klawiatura mechaniczna Corsair K70|799.99|12|Akcesoria
+4|Sluchawki Sony WH-1000XM4|1299.99|8|Elektronika
+5|Smartfon Samsung Galaxy S23|3599.00|10|Elektronika
+6|Monitor Dell UltraSharp 24"|1249.00|7|Elektronika
+7|Torba na laptopa|179.99|18|Akcesoria
+8|Pendrive 64GB Kingston|49.99|35|Akcesoria
+9|Router TP-Link Archer AX10|299.00|9|Sieci
+10|Drukarka HP DeskJet 2720|399.99|6|Elektronika
+11|Kamera internetowa Logitech C920|269.99|11|Elektronika
+12|Głośniki Creative Pebble 2.0|189.99|14|Audio
+13|Zestaw biurowy|59.99|25|Akcesoria
+14|Smartwatch Xiaomi Mi Band 7|179.00|16|Elektronika
+15|Powerbank 20 000 mAh|129.00|22|Akcesoria
+16|Mysz gamingowa Razer DeathAdder|249.99|13|Akcesoria
+17|Obudowa PC SilentiumPC|299.99|10|PC
+18|Pamięć RAM 16GB DDR4|389.99|8|PC
+19|Dysk SSD 1TB Samsung|449.99|12|PC
+20|Zestaw kabli HDMI 2m|69.99|30|Akcesoria
