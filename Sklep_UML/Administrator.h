@@ -55,6 +55,22 @@ public:
     bool usunProdukt(int idProduktu) {
         return serwisProduktow.usunProdukt(idProduktu);
     }
+
+    bool zmienNazweProduktu(int idProduktu, const string& nowaNazwa) {
+        return serwisProduktow.zmienNazweProduktu(idProduktu, nowaNazwa);
+    }
+
+    bool zmienCeneProduktu(int idProduktu, double nowaCena) {
+        return serwisProduktow.zmienCeneProduktu(idProduktu, nowaCena);
+    }
+
+    bool zmienStanMagazynowy(int idProduktu, int nowyStan) {
+        return serwisProduktow.zmienStanMagazynowy(idProduktu, nowyStan);
+    }
+
+    bool zmienKategorieProduktu(int idProduktu, const string& nowaKategoria) {
+        return serwisProduktow.zmienKategorieProduktu(idProduktu, nowaKategoria);
+    }
         bool zaloguj(Administrator& admin, const string& login, const string& haslo) {
         if (admin.login == login && admin.haslo == haslo) {
             return true;

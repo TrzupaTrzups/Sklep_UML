@@ -41,7 +41,7 @@ public:
 
             vector<string> pola = podzielTekst(linia, '|');
 
-            if (pola.size() != 5) {
+            if (pola.size() != 6) {
                 continue;
             }
 
@@ -51,13 +51,15 @@ public:
                 double cena = stod(pola[2]);
                 int stanMagazynowy = stoi(pola[3]);
                 string kategoria = pola[4];
+                string opis = pola[5];
 
                 Produkt produkt(
                     id,
                     nazwa,
                     cena,
                     stanMagazynowy,
-                    kategoria
+                    kategoria,
+                    opis
                 );
 
                 if (produkt.czyPoprawny()) {
@@ -85,7 +87,8 @@ public:
                 <<produkt.pobierzNazwe() << separator
                 <<fixed << setprecision(2) << produkt.pobierzCene() << separator
                 <<produkt.pobierzStanMagazynowy() << separator
-                <<produkt.pobierzKategorie()
+                <<produkt.pobierzKategorie() << separator
+                <<produkt.pobierzOpis()
                 << "\n";
         }
 
@@ -97,12 +100,20 @@ public:
 private:
     vector<string> podzielTekst(string& tekst, char separator){
         vector<string> wynik;
-        stringstream strumien(tekst);
         string element;
 
-        while (getline(strumien, element, separator)) {
-            wynik.push_back(element);
+        // Dzielimy recznie (nie przez getline), aby zachowac puste ostatnie pole,
+        // np. gdy opis jest pusty: "...|kategoria|" ma byc 6 pol, a nie 5.
+        for (char znak : tekst) {
+            if (znak == separator) {
+                wynik.push_back(element);
+                element.clear();
+            } else {
+                element.push_back(znak);
+            }
         }
+
+        wynik.push_back(element);
 
         return wynik;
     }

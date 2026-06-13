@@ -4,6 +4,12 @@
 #include "Koszyk.h"
 #include "AdresDostawy.h"
 
+#include <iomanip>
+#include <iostream>
+#include <string>
+
+using namespace std;
+
 enum class StatusZamowienia {
     Utworzone,
     OczekujeNaPlatnosc,
@@ -29,10 +35,47 @@ class Zamowienie {
 
     Zamowienie(int id, int idKlienta, const Koszyk& koszyk, double wartosc, const AdresDostawy& adresDostawy, StatusZamowienia status)
         : id(id), idKlienta(idKlienta), koszyk(koszyk), wartosc(wartosc), adresDostawy(adresDostawy), status(status) {}
-    
-    zmienStatus(StatusZamowienia nowyStatus);
-    wyswietlPodsumowanie();
-    wyswietlSzczegoly();
+
+    bool zmienStatus(StatusZamowienia nowyStatus) {
+        status = nowyStatus;
+        return true;
+    }
+
+    void wyswietlPodsumowanie() {
+        cout
+            << "Zamowienie #" << id
+            << " | Klient: " << idKlienta
+            << " | Wartosc: " << fixed << setprecision(2) << wartosc << " zl"
+            << " | Status: " << statusNaTekst(status)
+            << endl;
+    }
+
+    void wyswietlSzczegoly() {
+        cout << "=== SZCZEGOLY ZAMOWIENIA #" << id << " ===" << endl;
+        cout << "Klient (ID): " << idKlienta << endl;
+        cout << "Status: " << statusNaTekst(status) << endl;
+        cout << "--- Adres dostawy ---" << endl;
+        adresDostawy.wyswietl();
+        cout << "--- Zawartosc ---" << endl;
+        koszyk.wyswietlKoszyk();
+        cout
+            << "Wartosc zamowienia: "
+            << fixed << setprecision(2) << wartosc << " zl"
+            << endl;
+    }
+
+private:
+    string statusNaTekst(StatusZamowienia s) const {
+        switch (s) {
+        case StatusZamowienia::Utworzone:          return "Utworzone";
+        case StatusZamowienia::OczekujeNaPlatnosc: return "Oczekuje na platnosc";
+        case StatusZamowienia::Oplacone:           return "Oplacone";
+        case StatusZamowienia::Anulowane:          return "Anulowane";
+        case StatusZamowienia::Zrealizowane:       return "Zrealizowane";
+        }
+
+        return "Nieznany";
+    }
 };
 
 #endif // ZAMOWIENIE_H

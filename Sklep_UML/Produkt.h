@@ -12,6 +12,7 @@ private:
     double cena;
     int stanMagazynowy;
     string kategoria;
+    string opis;
 
 public:
     Produkt(
@@ -19,13 +20,15 @@ public:
         string& nazwa,
         double cena,
         int stanMagazynowy,
-        string& kategoria
+        string& kategoria,
+        string& opis
     )
         : id(id),
         nazwa(nazwa),
         cena(cena),
         stanMagazynowy(stanMagazynowy),
-        kategoria(kategoria) {
+        kategoria(kategoria),
+        opis(opis) {
     }
 
     int pobierzId() const {
@@ -48,6 +51,10 @@ public:
         return kategoria;
     }
 
+    const string& pobierzOpis() const {
+        return opis;
+    }
+
     void ustawNazwe(string& nowaNazwa) {
         nazwa = nowaNazwa;
     }
@@ -62,6 +69,10 @@ public:
 
     void ustawKategorie(string& nowaKategoria) {
         kategoria = nowaKategoria;
+    }
+
+    void ustawOpis(string& nowyOpis) {
+        opis = nowyOpis;
     }
 
     bool czyPoprawny() {
@@ -79,6 +90,7 @@ public:
             << ", Cena: " << cena << " zl"
             << ", Stan magazynowy: " << stanMagazynowy
             << ", Kategoria: " << kategoria
+            << ", Opis: " << opis
             << endl;
     }
 
