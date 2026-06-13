@@ -40,8 +40,30 @@ class Koszyk {
         pozycje.push_back(nowaPozycja);
         return true;
     };
-    bool usunProdukt(int idProduktu);
-    bool zmienIlosc(int idProduktu, int ilosc);
+    bool usunProdukt(int idProduktu) {
+        for (auto it = pozycje.begin(); it != pozycje.end(); ++it) {
+            if (it->pobierzProdukt().pobierzId() == idProduktu) {
+                pozycje.erase(it);
+                return true;
+            }
+        }
+
+        return false;
+    };
+    bool zmienIlosc(int idProduktu, int ilosc) {
+        if (ilosc <= 0) {
+            return false;
+        }
+
+        for (PozycjaKoszyka& pozycja : pozycje) {
+            if (pozycja.pobierzProdukt().pobierzId() == idProduktu) {
+                pozycja.ustawIlosc(ilosc);
+                return true;
+            }
+        }
+
+        return false;
+    };
     double obliczWartosc() {
         double wartosc = 0.0;
 
