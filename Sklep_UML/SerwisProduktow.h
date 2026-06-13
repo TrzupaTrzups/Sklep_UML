@@ -73,6 +73,68 @@ public:
         return repozytorium.zapiszProdukty(produkty);
     }
 
+    // Metody pomocnicze edycji. Na diagramie operacje zmien... naleza do klasy
+    // Administrator; tutaj jest warstwa, ktora realnie modyfikuje dane i zapisuje plik.
+    bool zmienNazweProduktu(int id, string nowaNazwa) {
+        if (nowaNazwa.empty()) {
+            return false;
+        }
+
+        Produkt* produkt = znajdzModyfikowalny(id);
+
+        if (produkt == nullptr) {
+            return false;
+        }
+
+        produkt->ustawNazwe(nowaNazwa);
+        return repozytorium.zapiszProdukty(produkty);
+    }
+
+    bool zmienCeneProduktu(int id, double nowaCena) {
+        if (nowaCena < 0) {
+            return false;
+        }
+
+        Produkt* produkt = znajdzModyfikowalny(id);
+
+        if (produkt == nullptr) {
+            return false;
+        }
+
+        produkt->ustawCene(nowaCena);
+        return repozytorium.zapiszProdukty(produkty);
+    }
+
+    bool zmienStanMagazynowy(int id, int nowyStan) {
+        if (nowyStan < 0) {
+            return false;
+        }
+
+        Produkt* produkt = znajdzModyfikowalny(id);
+
+        if (produkt == nullptr) {
+            return false;
+        }
+
+        produkt->ustawStanMagazynowy(nowyStan);
+        return repozytorium.zapiszProdukty(produkty);
+    }
+
+    bool zmienKategorieProduktu(int id, string nowaKategoria) {
+        if (nowaKategoria.empty()) {
+            return false;
+        }
+
+        Produkt* produkt = znajdzModyfikowalny(id);
+
+        if (produkt == nullptr) {
+            return false;
+        }
+
+        produkt->ustawKategorie(nowaKategoria);
+        return repozytorium.zapiszProdukty(produkty);
+    }
+
     vector<Produkt> wyszukajProduktyPoNazwie(const string& fraza) const {
         vector<Produkt> wynik;
 
@@ -153,6 +215,17 @@ public:
     }
 
 private:
+
+//Funkcja pomocnicza zwracajaca modyfikowalny wskaznik do produktu o danym ID, uzywana przez metody edycji.
+    Produkt* znajdzModyfikowalny(int id) {
+        for (Produkt& produkt : produkty) {
+            if (produkt.pobierzId() == id) {
+                return &produkt;
+            }
+        }
+
+        return nullptr;
+    }
 
 //Funkcja pomocnicza do zamiany tekstu na małe litery, nie ma jej w diagramie klas. Pomocna do wyszukiwania produktów bez rozróżniania wielkości liter.
     string zamienNaMaleLitery(const string& tekst) const {
