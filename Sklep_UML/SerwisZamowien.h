@@ -8,6 +8,7 @@
 
 using namespace std;
 
+// trzyma wszystkie zamowienia w pamieci i pozwala je tworzyc/szukac/zmieniac status
 class SerwisZamowien {
 private:
     vector<Zamowienie> zamowienia;

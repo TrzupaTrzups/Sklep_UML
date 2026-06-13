@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// adres dostawy do zamowienia (odbiorca + dane wysylki)
 class AdresDostawy {
 private:
     string odbiorca;
@@ -50,6 +51,7 @@ public:
         return telefon;
     }
 
+    // true tylko jak wszystkie pola adresu sa wypelnione
     bool czyKompletny() const {
         return !odbiorca.empty()
             && !ulica.empty()

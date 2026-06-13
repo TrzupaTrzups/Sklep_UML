@@ -7,6 +7,7 @@
 
 using namespace std;
 
+// trzyma karte klienta i zapisuje/wczytuje ja z pliku
 class SerwisKartyPlatniczej {
 private:
     RepozytoriumKartPlatniczych repozytorium;

@@ -8,6 +8,7 @@
 
 using namespace std;
 
+// zapisuje i wczytuje karte platnicza z pliku
 class RepozytoriumKartPlatniczych {
 private:
     string sciezkaPliku;

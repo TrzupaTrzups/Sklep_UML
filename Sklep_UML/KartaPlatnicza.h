@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// dane karty platniczej klienta
 class KartaPlatnicza {
 private:
     string wlasciciel;
@@ -43,6 +44,7 @@ public:
         return cvv;
     }
 
+    // proste sprawdzenie czy karta wyglada sensownie (numer i cvv to cyfry, dane niepuste)
     bool czyPoprawna() const {
         if (wlasciciel.empty() || dataWaznosci.empty()) {
             return false;
@@ -76,6 +78,7 @@ public:
     }
 
 private:
+    // pomocnicza - czy caly tekst to same cyfry
     static bool samaCyfry(const string& tekst) {
         if (tekst.empty()) {
             return false;

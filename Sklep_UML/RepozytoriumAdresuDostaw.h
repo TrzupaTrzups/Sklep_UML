@@ -8,6 +8,7 @@
 
 using namespace std;
 
+// zapisuje i wczytuje adres dostawy z pliku
 class RepozytoriumAdresuDostaw {
 private:
     string sciezkaPliku;

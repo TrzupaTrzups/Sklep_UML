@@ -13,6 +13,7 @@
 
 using namespace std;
 
+// zalogowany klient - ma swoj koszyk i moze skladac zamowienia, ogladac historie itd.
 class Klient : public Gosc {
 public:
     int id;
@@ -95,6 +96,7 @@ public:
         koszyk.zmienIlosc(idProduktu, ilosc);
     }
 
+    // sklada zamowienie z koszyka - bierze zapisany adres, tworzy zamowienie i czysci koszyk
     void zlozZamowienie() {
         if (koszyk.czyPusty()) {
             cout << "Koszyk jest pusty. Nie mozna zlozyc zamowienia." << endl;
@@ -125,6 +127,7 @@ public:
         }
     }
 
+    // wypisuje wszystkie zamowienia tego klienta
     void pokazHistorieZamowien() {
         if (serwisZamowien == nullptr) {
             cout << "Historia zamowien niedostepna." << endl;
@@ -144,6 +147,7 @@ public:
         }
     }
 
+    // pokazuje status jednego zamowienia po jego ID
     void pokazStatusZamowienia(int idZamowienia) {
         if (serwisZamowien == nullptr) {
             cout << "Status zamowienia niedostepny." << endl;

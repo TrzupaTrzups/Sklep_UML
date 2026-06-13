@@ -10,6 +10,7 @@
 
 using namespace std;
 
+// czyta i zapisuje produkty do pliku tekstowego (produkty.txt)
 class RepozytoriumProduktow {
 private:
     string sciezkaDoPliku;
@@ -23,6 +24,7 @@ public:
         return sciezkaDoPliku;
     }
 
+    // wczytuje produkty z pliku, linijka po linijce. zle linie po prostu pomija
     vector<Produkt> wczytajProdukty() {
         vector<Produkt> produkty;
 
@@ -74,6 +76,7 @@ public:
         return produkty;
     }
 
+    // zapisuje cala liste produktow do pliku (nadpisuje to co bylo). zwraca true jak sie udalo
     bool zapiszProdukty(vector<Produkt>& produkty, char separator = '|'){
         ofstream plik(sciezkaDoPliku, ios::trunc);
 

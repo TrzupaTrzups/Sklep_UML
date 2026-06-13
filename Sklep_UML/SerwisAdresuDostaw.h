@@ -7,6 +7,7 @@
 
 using namespace std;
 
+// trzyma adres dostawy klienta i zapisuje/wczytuje go z pliku
 class SerwisAdresuDostaw {
 private:
     RepozytoriumAdresuDostaw repozytorium;

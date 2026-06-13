@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// jeden produkt w sklepie - trzyma jego dane
 class Produkt {
 private:
     int id;
@@ -75,6 +76,7 @@ public:
         opis = nowyOpis;
     }
 
+    // sprawdza czy dane maja sens zanim dodamy produkt (cena/stan nie ujemne, nazwa i kategoria niepuste)
     bool czyPoprawny() {
         return id > 0
             && !nazwa.empty()
@@ -83,6 +85,7 @@ public:
             && !kategoria.empty();
     }
 
+    // wypisuje produkt w jednej linii - uzywane w szczegolach
     void wyswietl() {
         cout
             << "ID: " << id

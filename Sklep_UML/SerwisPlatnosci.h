@@ -8,6 +8,7 @@
 
 using namespace std;
 
+// realizuje platnosc korzystajac z karty zapisanej w SerwisKartyPlatniczej
 class SerwisPlatnosci {
 private:
     SerwisKartyPlatniczej& skp;

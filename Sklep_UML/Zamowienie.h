@@ -10,6 +10,7 @@
 
 using namespace std;
 
+// mozliwe stany w jakich moze byc zamowienie
 enum class StatusZamowienia {
     Utworzone,
     OczekujeNaPlatnosc,
@@ -18,6 +19,7 @@ enum class StatusZamowienia {
     Zrealizowane
 };
 
+// jedno zamowienie zlozone przez klienta (kopia koszyka + adres + status)
 class Zamowienie {
     public:
     int id;
@@ -41,6 +43,7 @@ class Zamowienie {
         return true;
     }
 
+    // krotka info o zamowieniu w jednej linii (do historii)
     void wyswietlPodsumowanie() {
         cout
             << "Zamowienie #" << id
@@ -50,6 +53,7 @@ class Zamowienie {
             << endl;
     }
 
+    // pelne szczegoly zamowienia - adres, zawartosc koszyka i wartosc
     void wyswietlSzczegoly() {
         cout << "=== SZCZEGOLY ZAMOWIENIA #" << id << " ===" << endl;
         cout << "Klient (ID): " << idKlienta << endl;

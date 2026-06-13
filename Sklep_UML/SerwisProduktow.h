@@ -10,6 +10,7 @@
 
 using namespace std;
 
+// glowna logika produktow - trzyma liste w pamieci, szuka, filtruje i edytuje produkty
 class SerwisProduktow {
 private:
     vector<Produkt> produkty;
@@ -39,6 +40,7 @@ public:
         return nullptr;
     }
 
+    // dodaje produkt jak ma poprawne dane i ID nie jest juz zajete, potem zapisuje do pliku
     bool dodajProdukt(Produkt produkt) {
         if (!produkt.czyPoprawny()) {
             return false;
@@ -52,6 +54,7 @@ public:
         return repozytorium.zapiszProdukty(produkty);
     }
 
+    // usuwa produkt o danym ID, zwraca false jak takiego nie bylo
     bool usunProdukt(int id) {
         auto liczbaProduktowPrzedUsunieciem = produkty.size();
 
@@ -135,6 +138,7 @@ public:
         return repozytorium.zapiszProdukty(produkty);
     }
 
+    // zwraca produkty ktorych nazwa zawiera podana fraze (wielkosc liter nie ma znaczenia)
     vector<Produkt> wyszukajProduktyPoNazwie(const string& fraza) const {
         vector<Produkt> wynik;
 
@@ -155,6 +159,7 @@ public:
         return wynik;
     }
 
+    // zwraca produkty z podanej kategorii
     vector<Produkt> filtrujProduktyPoKategorii(const string& kategoria) const {
         vector<Produkt> wynik;
 
@@ -175,6 +180,7 @@ public:
         return wynik;
     }
 
+    // zwraca produkty w przedziale cenowym od min do max
     vector<Produkt> filtrujProduktyPoCenie(double cenaMinimalna, double cenaMaksymalna) const {
         vector<Produkt> wynik;
 
@@ -198,6 +204,7 @@ public:
         return wynik;
     }
 
+    // zwraca liste roznych kategorii (przydatne do menu filtrowania)
     vector<string> pobierzKategorie() const {
         vector<string> kategorie;
 
