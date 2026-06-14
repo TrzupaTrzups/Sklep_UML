@@ -221,27 +221,13 @@ private:
             return;
         }
 
-        AdresDostawy adres;
-        serwisAdresu->pobierzAdres(adres);
+        AdresDostawy adres = wybierzAdresDostawy();
 
         if (!adres.czyKompletny()) {
-            cout << "Brak kompletnego adresu dostawy." << endl;
-
-            if (!czyTak("Czy chcesz wprowadzic adres teraz? (t/n): ")) {
-                wyswietlWidok();
-                cout << "Zamowienie nie zostalo zlozone." << endl;
-                cout << endl;
-                return;
-            }
-
-            if (!wczytajIZapiszAdres()) {
-                wyswietlWidok();
-                cout << "Nie udalo sie zapisac adresu dostawy." << endl;
-                cout << endl;
-                return;
-            }
-
-            serwisAdresu->pobierzAdres(adres);
+            wyswietlWidok();
+            cout << "Zamowienie nie zostalo zlozone. Nie wybrano adresu dostawy." << endl;
+            cout << endl;
+            return;
         }
 
         bool czyUtworzono =
@@ -310,22 +296,10 @@ private:
             return;
         }
 
-        KartaPlatnicza karta = serwisKarty->pobierzKarte();
-
-        if (!karta.czyPoprawna()) {
-            cout << "Brak poprawnej karty platniczej." << endl;
-
-            if (!czyTak("Czy chcesz wprowadzic karte teraz? (t/n): ")) {
-                cout << "Platnosc przerwana." << endl;
-                cout << endl;
-                return;
-            }
-
-            if (!wczytajIZapiszKarte()) {
-                cout << "Nie udalo sie zapisac poprawnej karty." << endl;
-                cout << endl;
-                return;
-            }
+        if (!wybierzIZapiszKarteDoPlatnosci()) {
+            cout << "Platnosc przerwana. Nie wybrano poprawnej karty." << endl;
+            cout << endl;
+            return;
         }
 
         if (zamowienie->status == StatusZamowienia::Utworzone) {
@@ -366,6 +340,154 @@ private:
 
         zamowienie->wyswietlPodsumowanie();
         cout << endl;
+    }
+
+    AdresDostawy wybierzAdresDostawy() {
+        AdresDostawy zapisanyAdres;
+        serwisAdresu->pobierzAdres(zapisanyAdres);
+
+        AdresDostawy domyslnyAdres = pobierzDomyslnyAdres();
+
+        while (true) {
+            cout << "=== WYBOR ADRESU DOSTAWY ===" << endl;
+
+            if (zapisanyAdres.czyKompletny()) {
+                cout << "1. Uzyj zapisanego adresu: ";
+                wyswietlAdresWKrotkiejFormie(zapisanyAdres);
+            } else {
+                cout << "1. Uzyj zapisanego adresu (brak zapisanego adresu)" << endl;
+            }
+
+            cout << "2. Uzyj domyslnego adresu: ";
+            wyswietlAdresWKrotkiejFormie(domyslnyAdres);
+            cout << "3. Wpisz nowy adres" << endl;
+            cout << "0. Anuluj skladanie zamowienia" << endl;
+            cout << endl;
+
+            int wybor = wczytajLiczbeCalkowita("Wybierz adres dostawy: ");
+
+            switch (wybor) {
+            case 1:
+                if (zapisanyAdres.czyKompletny()) {
+                    return zapisanyAdres;
+                }
+
+                cout << "Brak kompletnego zapisanego adresu." << endl;
+                break;
+
+            case 2:
+                return domyslnyAdres;
+
+            case 3:
+                if (wczytajIZapiszAdres()) {
+                    serwisAdresu->pobierzAdres(zapisanyAdres);
+                    return zapisanyAdres;
+                }
+
+                cout << "Nie udalo sie zapisac kompletnego adresu." << endl;
+                break;
+
+            case 0:
+                return AdresDostawy();
+
+            default:
+                cout << "Nie ma takiej opcji. Sprobuj ponownie." << endl;
+                break;
+            }
+
+            cout << endl;
+        }
+    }
+
+    bool wybierzIZapiszKarteDoPlatnosci() {
+        KartaPlatnicza zapisanaKarta = serwisKarty->pobierzKarte();
+        KartaPlatnicza domyslnaKarta = pobierzDomyslnaKarte();
+
+        while (true) {
+            cout << "=== WYBOR KARTY PLATNICZEJ ===" << endl;
+
+            if (zapisanaKarta.czyPoprawna()) {
+                cout << "1. Uzyj zapisanej karty: ";
+                wyswietlKarteWKrotkiejFormie(zapisanaKarta);
+            } else {
+                cout << "1. Uzyj zapisanej karty (brak poprawnej zapisanej karty)" << endl;
+            }
+
+            cout << "2. Uzyj domyslnej karty: ";
+            wyswietlKarteWKrotkiejFormie(domyslnaKarta);
+            cout << "3. Wpisz nowa karte" << endl;
+            cout << "0. Anuluj platnosc" << endl;
+            cout << endl;
+
+            int wybor = wczytajLiczbeCalkowita("Wybierz karte platnicza: ");
+
+            switch (wybor) {
+            case 1:
+                if (zapisanaKarta.czyPoprawna()) {
+                    return true;
+                }
+
+                cout << "Brak poprawnej zapisanej karty." << endl;
+                break;
+
+            case 2:
+                return serwisKarty->zapiszKarte(domyslnaKarta);
+
+            case 3:
+                if (wczytajIZapiszKarte()) {
+                    return true;
+                }
+
+                cout << "Nie udalo sie zapisac poprawnej karty." << endl;
+                break;
+
+            case 0:
+                return false;
+
+            default:
+                cout << "Nie ma takiej opcji. Sprobuj ponownie." << endl;
+                break;
+            }
+
+            cout << endl;
+        }
+    }
+
+    AdresDostawy pobierzDomyslnyAdres() const {
+        return AdresDostawy(
+            "Jan Kowalski",
+            "ul. Przykladowa 1",
+            "00-001",
+            "Warszawa",
+            "123456789"
+        );
+    }
+
+    KartaPlatnicza pobierzDomyslnaKarte() const {
+        return KartaPlatnicza(
+            "Jan Kowalski",
+            "4111111111111111",
+            "12/30",
+            "123"
+        );
+    }
+
+    void wyswietlAdresWKrotkiejFormie(const AdresDostawy& adres) const {
+        cout
+            << adres.pobierzOdbiorce()
+            << ", " << adres.pobierzUlice()
+            << ", " << adres.pobierzKodPocztowy()
+            << " " << adres.pobierzMiasto()
+            << ", tel. " << adres.pobierzTelefon()
+            << endl;
+    }
+
+    void wyswietlKarteWKrotkiejFormie(const KartaPlatnicza& karta) const {
+        cout
+            << karta.pobierzWlasciciela()
+            << ", " << karta.pobierzZamaskowanyNumer()
+            << ", wazna do " << karta.pobierzDateWaznosci()
+            << endl;
     }
 
     bool wczytajIZapiszAdres() {
