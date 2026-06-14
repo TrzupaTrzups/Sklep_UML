@@ -1,0 +1,2 @@
+1|Produkt testowy|10.00|5|Test|Opis produktu testowego
+2|Drugi produkt|25.50|3|Test|Drugi opis
