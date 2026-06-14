@@ -7,15 +7,21 @@
 #include "MenuGoscia.h"
 #include "Administrator.h"
 #include "MenuAdministartora.h"
+#include "SerwisAdresuDostaw.h"
+#include "SerwisKartyPlatniczej.h"
+#include "SerwisPlatnosci.h"
+#include "SerwisZamowien.h"
 
 using namespace std;
 
-void ekranLogowania(Klient k, MenuGoscia& mg, MenuKlienta& mk, Administrator& administrator, MenuAdministrator& menuAdministrator) {
+void ekranLogowania(Klient& k, MenuGoscia& mg, MenuKlienta& mk, Administrator& administrator, MenuAdministrator& menuAdministrator) {
     cout << "=== EKRAN LOGOWANIA ===" << endl;
     cout << "1. Zaloguj sie jako klient" << endl;
     cout << "2. Kontynuuj jako gosc" << endl;
     cout << "3. Zaloguj sie jako administrator" << endl;
     cout << "0. Wyjdz" << endl;
+    cout << "Dane klienta testowego: login klient, haslo klient" << endl;
+    cout << "Dane administratora: login admin, haslo admin" << endl;
     cout << endl;
 
     int wybor = mg.wczytajLiczbeCalkowita("Wybierz opcje: ");
@@ -28,8 +34,7 @@ void ekranLogowania(Klient k, MenuGoscia& mg, MenuKlienta& mk, Administrator& ad
             cout << "Zalogowano pomyslnie!" << endl;
             mk.uruchom();
         } else {
-            cout << "Niepoprawny login lub haslo. Kontynuowanie jako gosc." << endl;
-            mg.uruchom();
+            cout << "Niepoprawny login lub haslo." << endl;
         }
     } else if(wybor == 2) {
         mg.uruchom();
@@ -49,14 +54,36 @@ void ekranLogowania(Klient k, MenuGoscia& mg, MenuKlienta& mk, Administrator& ad
 
 int main() {
     string sciezkaDoPliku = "produkty.txt";
+    string sciezkaAdresuDostawy = "adres_dostawy.txt";
+    string sciezkaKartyPlatniczej = "karta_platnicza.txt";
+
     SerwisProduktow serwisProduktow(sciezkaDoPliku);
+    SerwisZamowien serwisZamowien;
+    SerwisAdresuDostaw serwisAdresuDostaw(sciezkaAdresuDostawy);
+    SerwisKartyPlatniczej serwisKartyPlatniczej(sciezkaKartyPlatniczej);
+    SerwisPlatnosci serwisPlatnosci(serwisKartyPlatniczej);
 
     Gosc gosc(serwisProduktow);
-    Klient klient(1, "Grzybeusz Smierdziuszko", "grzyby", serwisProduktow);
+    Klient klient(
+        1,
+        "klient",
+        "klient",
+        serwisProduktow,
+        serwisZamowien,
+        serwisAdresuDostaw,
+        serwisKartyPlatniczej
+    );
     Administrator administrator(1, "admin", "admin", serwisProduktow);
 
     MenuGoscia menuGoscia(gosc, serwisProduktow);
-    MenuKlienta menuKlienta(klient, serwisProduktow);
+    MenuKlienta menuKlienta(
+        klient,
+        serwisProduktow,
+        serwisZamowien,
+        serwisAdresuDostaw,
+        serwisKartyPlatniczej,
+        serwisPlatnosci
+    );
     MenuAdministrator menuAdministrator(administrator, serwisProduktow);
     
     ekranLogowania(klient, menuGoscia, menuKlienta, administrator, menuAdministrator);
